@@ -1,0 +1,82 @@
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between mb-3">
+    <h4>Applications</h4>
+    <div class="d-flex gap-2">
+      <button class="btn btn-success btn-sm" (click)="openModal()">
+        New Application
+      </button>
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">
+          Logout  
+      </button>
+    </div>
+  </div>
+  <table class="table table-striped table-sm table-bordered" *ngIf="applications.length">
+    <thead class="table-success">
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let app of applications">
+        <td>{{ app.id }}</td>
+        <td>{{ app.createdAt | date:'short' }}</td>
+        <td>{{ app.type }}</td>
+        <td>{{ app.status }}</td>
+        <td>{{ app.message }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="text-muted" *ngIf="!applications.length">
+    No applications yet
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade show d-block" *ngIf="showModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">New Application</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+
+        <form (ngSubmit)="submit()">        
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Type</label>
+              <select class="form-select" [(ngModel)]="newApplication.type" name="type">
+                <option value="request">Request</option>
+                <option value="offer">Offer</option>
+                <option value="complaint">Complaint</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Message</label>
+              <textarea
+                class="form-control"
+                rows="3"
+                [(ngModel)]="newApplication.message" name="message">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal backdrop -->
+  <div class="modal-backdrop fade show" *ngIf="showModal"></div>
+
+</div>
